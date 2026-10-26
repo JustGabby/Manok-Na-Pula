@@ -4,5 +4,5 @@
 /**
  * 
  */
-module FinalProj {
+module FinalProject {
 }

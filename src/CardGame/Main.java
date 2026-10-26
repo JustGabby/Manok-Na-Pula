@@ -26,16 +26,28 @@ public class Main {
 				bet = sc.nextInt();
 				
 				blackjack = new Blackjack(bet, player1, dealer1);
+				
+				System.out.println("Winrate: "+ blackjack.getWinRate() +"% ( Wins: "+ player1.getWins()+" | Lose: "+ player1.getLose() +" | Draw: "+ player1.getDraw()+" )");
 				System.out.println("Bet: " + blackjack.displayBet());
 				
 				Collections.shuffle(blackjack.getDeck());
+				Collections.shuffle(blackjack.getDeck());
+
 				
 				player1.addHand(blackjack.draw());
 				player1.addHand(blackjack.draw());
+				dealer1.addHand(blackjack.draw());
 				
 				player1.displayHand(blackjack);
+				dealer1.displayHand(blackjack);
+				
+
 				
 				while(true) {
+					if (player1.handValue(blackjack) == 21) {
+						blackjack.showDown();
+						break;
+					}
 					System.out.println("1. Hit");
 					System.out.println("2. Stand");
 					System.out.print("Input: ");
@@ -69,5 +81,8 @@ public class Main {
 			}
 			
 		}
+		sc.close();
 	}
+	
+	
 }
