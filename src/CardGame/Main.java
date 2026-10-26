@@ -57,8 +57,7 @@ public class Main {
 						player1.addHand(blackjack.draw());
 						player1.displayHand(blackjack);
 							if (player1.handValue(blackjack) > 21) {
-								System.out.println("The player busts!");
-								System.out.println("You lose!");
+								blackjack.showDown();
 								break;
 							} else if(player1.handValue(blackjack) == 21) {
 								blackjack.showDown();

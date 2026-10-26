@@ -121,7 +121,10 @@ public class Blackjack extends Game implements CardValue {
 	@Override
 	public void showDown() {
 		System.out.println("-------------------");
-		dealerTurn();
+
+		if (player.getHandValue() <= 21) {
+			dealerTurn();
+		}
 		if (winner() == 1) {
 			System.out.println("Draw.");
 			player.setDraw(player.getDraw() + 1);
