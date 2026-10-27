@@ -1,87 +1,60 @@
 package CardGame;
-import java.util.Collections;
+
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
-	
+
 	public static void main(String[] args) {
 		Player player1 = new Player();
 		Dealer dealer1 = new Dealer();
-		Blackjack blackjack;
-		int userChoice;
-		int inGameChoice;
+
+		int userMenuChoice = 0;
 		double bet;
-		boolean running = true;
+		boolean appRunning = true;
 		Scanner sc = new Scanner(System.in);
-		
-		while (running) {
-			System.out.println("1. Draw");
-			System.out.println("2. Exit");
-			System.out.print("Input: ");
-			userChoice = sc.nextInt();
-			
-			switch(userChoice) {
-			case 1:
-				System.out.print("Enter bet: ");
-				bet = sc.nextInt();
-				
-				blackjack = new Blackjack(bet, player1, dealer1);
-				
-				System.out.println("Winrate: "+ blackjack.getWinRate() +"% ( Wins: "+ player1.getWins()+" | Lose: "+ player1.getLose() +" | Draw: "+ player1.getDraw()+" )");
-				System.out.println("Bet: " + blackjack.displayBet());
-				
-				Collections.shuffle(blackjack.getDeck());
-				Collections.shuffle(blackjack.getDeck());
 
-				
-				player1.addHand(blackjack.draw());
-				player1.addHand(blackjack.draw());
-				dealer1.addHand(blackjack.draw());
-				
-				player1.displayHand(blackjack);
-				dealer1.displayHand(blackjack);
-				
-
-				
-				while(true) {
-					if (player1.handValue(blackjack) == 21) {
-						blackjack.showDown();
-						break;
-					}
-					System.out.println("1. Hit");
-					System.out.println("2. Stand");
-					System.out.print("Input: ");
-					inGameChoice = sc.nextInt();
-					
-					if (inGameChoice == 1) {
-						player1.addHand(blackjack.draw());
-						player1.displayHand(blackjack);
-							if (player1.handValue(blackjack) > 21) {
-								blackjack.showDown();
-								break;
-							} else if(player1.handValue(blackjack) == 21) {
-								blackjack.showDown();
-								break;
-							}
-							continue;
-					} else if(inGameChoice == 2) {
-						blackjack.showDown();
-						break;
-					}
-					break;
-				}
-				
-				blackjack.retrieveCards();
-				break;
-			case 2:
-				System.out.println("Thank you for playing!");
-				running = false;
-				break;
+		while (appRunning) {
+			try {
+				System.out.println("1. Play Blackjack");
+				System.out.println("2. Play Baccarat");
+				System.out.println("3. Play Lucky-9");
+				System.out.println("4. Exit");
+				System.out.print("\nInput: ");
+				userMenuChoice = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("\nError. Try Again.\n");
+				sc.nextLine();
+				continue;
 			}
-			
+
+			switch (userMenuChoice) {
+			case 1:
+				Blackjack blackjack;
+				boolean isBlackjackRunning = true;
+
+				while (isBlackjackRunning) {
+					System.out.print("Enter bet: ");
+					bet = sc.nextInt();
+
+					blackjack = new Blackjack(bet, player1, dealer1);
+
+					System.out.println("Winrate: " + blackjack.getWinRate() + "% ( Wins: " + player1.getWins()
+							+ " | Lose: " + player1.getLose() + " | Draw: " + player1.getDraw() + " )");
+					System.out.println("Bet: " + blackjack.displayBet());
+
+					blackjack.runBlackjack(sc, player1, dealer1, blackjack, isBlackjackRunning);
+				}
+				break;
+			case 4:
+				appRunning = false;
+				sc.close();
+				System.out.println("Thank you for playing!");
+				System.out.println("( - Program Terminated - )");
+				break;
+			default:
+				System.out.println("\nInvalid choice. Try again.\n");
+			}
 		}
-		sc.close();
 	}
-	
-	
 }

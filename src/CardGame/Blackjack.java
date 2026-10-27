@@ -1,7 +1,9 @@
 package CardGame;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
+import java.util.Scanner;
 
 public class Blackjack extends Game implements CardValue {
 	private Player player;
@@ -12,6 +14,53 @@ public class Blackjack extends Game implements CardValue {
 		this.player = player;
 		this.dealer = dealer;
 	}
+
+	// Game Handler
+
+	public void runBlackjack(Scanner sc, Player player, Dealer dealer, Blackjack blackjack, boolean isGameRunning) {
+		int inGameChoice;
+		
+		Collections.shuffle(blackjack.getDeck());
+
+		player.addHand(blackjack.draw());
+		player.addHand(blackjack.draw());
+		dealer.addHand(blackjack.draw());
+
+		player.displayHand(blackjack);
+		dealer.displayHand(blackjack);
+		
+		while (isGameRunning) {
+			if (player.handValue(blackjack) == 21) {
+				blackjack.showDown();
+				break;
+			}
+			System.out.println("1. Hit");
+			System.out.println("2. Stand");
+			System.out.print("Input: ");
+			inGameChoice = sc.nextInt();
+
+			if (inGameChoice == 1) {
+				player.addHand(blackjack.draw());
+				player.displayHand(blackjack);
+				if (player.handValue(blackjack) > 21) {
+					blackjack.showDown();
+					break;
+				} else if (player.handValue(blackjack) == 21) {
+					blackjack.showDown();
+					break;
+				}
+				continue;
+			} else if (inGameChoice == 2) {
+				blackjack.showDown();
+				break;
+			}
+			break;
+		}		
+		blackjack.retrieveCards();
+		blackjack.askPlayAgain(sc, isGameRunning);
+	}
+
+	// Methods
 
 	public Card draw() {
 		return super.draw();

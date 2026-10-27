@@ -2,6 +2,7 @@ package CardGame;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Scanner;
 
 public abstract class Game {
 	private double bet;
@@ -22,6 +23,18 @@ public abstract class Game {
 	
 	public Card draw() {
 		return this.deck.draw();
+	}
+	
+	public void askPlayAgain(Scanner sc, boolean isGameRunning) {
+		sc.nextLine();
+		System.out.println("Play again? (Y / N)"); 
+		String askPlayer = sc.nextLine().toLowerCase();
+		
+		if (askPlayer.startsWith("y")) {
+			System.out.println("\nPlaying again...\n");
+		} else {
+			isGameRunning = false;
+		}
 	}
 
 	public abstract void showDown();
