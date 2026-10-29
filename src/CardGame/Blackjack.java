@@ -17,47 +17,49 @@ public class Blackjack extends Game implements CardValue {
 
 	// Game Handler
 
-	public void runBlackjack(Scanner sc, Player player, Dealer dealer, Blackjack blackjack, boolean isGameRunning) {
-		int inGameChoice;
-		
-		Collections.shuffle(blackjack.getDeck());
+	public boolean runBlackjack(Scanner sc) {
+		Collections.shuffle(getDeck());
 
-		player.addHand(blackjack.draw());
-		player.addHand(blackjack.draw());
-		dealer.addHand(blackjack.draw());
+		player.getHand().clear();
+		dealer.getHand().clear();
 
-		player.displayHand(blackjack);
-		dealer.displayHand(blackjack);
-		
-		while (isGameRunning) {
-			if (player.handValue(blackjack) == 21) {
-				blackjack.showDown();
+		player.addHand(draw());
+		player.addHand(draw());
+		dealer.addHand(draw());
+
+		player.displayHand(this);
+		dealer.displayHand(this);
+
+		while (true) {
+			if (player.handValue(this) == 21) {
+				showDown();
 				break;
 			}
 			System.out.println("1. Hit");
 			System.out.println("2. Stand");
 			System.out.print("Input: ");
-			inGameChoice = sc.nextInt();
+			int inGameChoice = sc.nextInt();
 
 			if (inGameChoice == 1) {
-				player.addHand(blackjack.draw());
-				player.displayHand(blackjack);
-				if (player.handValue(blackjack) > 21) {
-					blackjack.showDown();
+				player.addHand(draw());
+				player.displayHand(this);
+				if (player.handValue(this) > 21) {
+					showDown();
 					break;
-				} else if (player.handValue(blackjack) == 21) {
-					blackjack.showDown();
+				} else if (player.handValue(this) == 21) {
+					showDown();
 					break;
 				}
-				continue;
 			} else if (inGameChoice == 2) {
-				blackjack.showDown();
+				showDown();
+				break;
+			} else {
 				break;
 			}
-			break;
-		}		
-		blackjack.retrieveCards();
-		blackjack.askPlayAgain(sc, isGameRunning);
+		}
+
+		retrieveCards();
+		return askPlayAgain(sc);
 	}
 
 	// Methods
@@ -171,7 +173,7 @@ public class Blackjack extends Game implements CardValue {
 	public void showDown() {
 		System.out.println("-------------------");
 
-		if (player.getHandValue() <= 21) {
+		if (player.handValue(this) <= 21) {
 			dealerTurn();
 		}
 		if (winner() == 1) {

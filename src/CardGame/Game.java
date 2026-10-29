@@ -25,16 +25,16 @@ public abstract class Game {
 		return this.deck.draw();
 	}
 	
-	public void askPlayAgain(Scanner sc, boolean isGameRunning) {
+	public boolean askPlayAgain(Scanner sc) {
 		sc.nextLine();
 		System.out.println("Play again? (Y / N)"); 
 		String askPlayer = sc.nextLine().toLowerCase();
 		
 		if (askPlayer.startsWith("y")) {
 			System.out.println("\nPlaying again...\n");
-		} else {
-			isGameRunning = false;
+			return true;
 		}
+		return false;
 	}
 
 	public abstract void showDown();

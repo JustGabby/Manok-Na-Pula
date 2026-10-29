@@ -17,7 +17,7 @@ public class Main {
 		while (appRunning) {
 			try {
 				System.out.println("1. Play Blackjack");
-				System.out.println("2. Play Baccarat");
+				System.out.println("2. Play Texas Hold'em");
 				System.out.println("3. Play Lucky-9");
 				System.out.println("4. Exit");
 				System.out.print("\nInput: ");
@@ -30,20 +30,35 @@ public class Main {
 
 			switch (userMenuChoice) {
 			case 1:
-				Blackjack blackjack;
 				boolean isBlackjackRunning = true;
 
 				while (isBlackjackRunning) {
 					System.out.print("Enter bet: ");
 					bet = sc.nextInt();
 
-					blackjack = new Blackjack(bet, player1, dealer1);
+					Blackjack blackjack = new Blackjack(bet, player1, dealer1);
 
 					System.out.println("Winrate: " + blackjack.getWinRate() + "% ( Wins: " + player1.getWins()
 							+ " | Lose: " + player1.getLose() + " | Draw: " + player1.getDraw() + " )");
 					System.out.println("Bet: " + blackjack.displayBet());
 
-					blackjack.runBlackjack(sc, player1, dealer1, blackjack, isBlackjackRunning);
+					isBlackjackRunning = blackjack.runBlackjack(sc);
+				}
+				break;
+			case 2:
+				boolean isPokerRunning = true;
+
+				while (isPokerRunning) {
+					System.out.print("Enter bet: ");
+					bet = sc.nextInt();
+
+					Poker poker = new Poker(bet, player1, dealer1);
+
+					System.out.println("Winrate: " + poker.getWinRate() + "% ( Wins: " + player1.getWins()
+							+ " | Lose: " + player1.getLose() + " | Draw: " + player1.getDraw() + " )");
+					System.out.println("Bet: " + poker.displayBet());
+
+					isPokerRunning = poker.runPoker(sc);
 				}
 				break;
 			case 4:
