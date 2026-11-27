@@ -16,7 +16,10 @@ public class Game {
 	}
 
 	public Game(Player player, long seed) {
+		Rng.setSeed(seed);
+		Bundle.resetAllPity();
 		this.player = player;
+		this.player.getDeck().resetForBattle();
 		this.shop = new Shop();
 		this.wish = new Wish();
 		this.encounters = new EncounterGenerator(seed);

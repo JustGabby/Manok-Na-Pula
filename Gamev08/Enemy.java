@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Enemy extends Entity {
 	private static final int MAX_SUBSET_CARDS = 5;
 	private int level;
-	private EnemyBehavior behavior;
+	private EnemyBehaviour behaviour;
 
 	public Enemy(String name, int healthpoint, int cardSlot, int level) {
 		this(name, healthpoint, cardSlot, level, 0);
@@ -21,7 +21,7 @@ public class Enemy extends Entity {
 	public Enemy(String name, int healthpoint, int cardSlot, int level, int bonusDamage, Deck customDeck) {
 		super(name, healthpoint, cardSlot, bonusDamage, customDeck);
 		this.level = level;
-		this.behavior = EnemyBehavior.forLevel(level);
+		this.behaviour = EnemyBehaviour.forLevel(level);
 	}
 
 	public int getLevel() {
@@ -30,7 +30,7 @@ public class Enemy extends Entity {
 
 	@Override
 	public void playShowdownHand(Scanner sc) {
-		behavior.playShowdownHand(this, sc);
+		behaviour.playShowdownHand(this, sc);
 	}
 
 	void pickRandom() {
@@ -121,12 +121,12 @@ public class Enemy extends Entity {
 
 	private void enemyBlackjackActionPhase() {
 		int currentVal = calculateHandValue(getShowdownHand());
-		int hitThreshold = behavior.getHitThreshold();
+		int hitThreshold = behaviour.getHitThreshold();
 		if (currentVal >= hitThreshold) {
 			return;
 		}
 
-		double doubleDownChance = behavior.getDoubleDownChance();
+		double doubleDownChance = behaviour.getDoubleDownChance();
 		if (currentVal >= 9 && currentVal <= 11 && Rng.nextDouble() < doubleDownChance) {
 			setDoubledDown(true);
 			System.out.println("\n" + getName() + " DOUBLES DOWN!");
@@ -136,13 +136,13 @@ public class Enemy extends Entity {
 			return;
 		}
 
-		double hitChance = behavior.getHitChance();
+		double hitChance = behaviour.getHitChance();
 		if (Rng.nextDouble() < hitChance) {
 			System.out.println("\n" + getName() + " draws from the deck!");
 			if (drawCardToShowdown() != null) {
 				setDrewCard(true);
 			}
-			if (behavior.drawsTwice() && calculateHandValue(getShowdownHand()) < hitThreshold - 2) {
+			if (behaviour.drawsTwice() && calculateHandValue(getShowdownHand()) < hitThreshold - 2) {
 				System.out.println(getName() + " draws another card!");
 				drawCardToShowdown();
 			}
@@ -153,7 +153,7 @@ public class Enemy extends Entity {
 		System.out.printf("%-18s %s%n", "Enemy:", getName());
 		System.out.printf("%-18s %d/%d%n", "HP:", super.getHealthpoint(), super.getMaxHealthpoint());
 		System.out.printf("%-18s %d%s%n", "Level:", getLevel(), (getBonusDamage() > 0 ? " | Bonus Damage: +" + getBonusDamage() : ""));
-		System.out.printf("%-18s %s | Deck: %s (%d cards)%n", "Archetype:", behavior.getArchetypeName(), getDeck().getDeckName(), getDeck().size());
+		System.out.printf("%-18s %s | Deck: %s (%d cards)%n", "Archetype:", behaviour.getArchetypeName(), getDeck().getDeckName(), getDeck().size());
 	}
 
 	public void enemyTurn() {
