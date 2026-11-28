@@ -1,6 +1,6 @@
-package Jacklore;
+package Game;
 
-public enum Suit {
+public enum Suits {
 	DIAMONDS("Diamonds"),
 	HEARTS("Hearts"),
 	SPADES("Spades"),
@@ -8,7 +8,7 @@ public enum Suit {
 	
 	private String suit;
 	
-	Suit(String suit){
+	Suits(String suit){
 		this.suit = suit;
 	}
 	

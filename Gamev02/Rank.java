@@ -1,4 +1,4 @@
-package Jacklore;
+package Gamev02;
 
 public enum Rank {
 	TWO("2", 2),
